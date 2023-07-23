@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instagram Analysis Result</title>
+</head>
+<body>
+    <h1>Instagram Analysis Result for {{ username }}</h1>
+
+    <h2>Basic Information:</h2>
+    <p>Full Name: {{ basic_info['Full Name'] }}</p>
+    <p>Bio: {{ basic_info['Bio'] }}</p>
+    <p>Website: {{ basic_info['Website'] }}</p>
+
+    <h2>Statistics:</h2>
+    <p>Follower Count: {{ follower_count }}</p>
+    <p>Following Count: {{ following_count }}</p>
+    <p>Post Count: {{ post_count }}</p>
+
+    <h2>Performance Statistics:</h2>
+    <p>Total Interactions: {{ performance_stats['Total Interactions'] }}</p>
+    <p>Average Likes per Post: {{ performance_stats['Average Likes per Post'] }}</p>
+    <p>Average Comments per Post: {{ performance_stats['Average Comments per Post'] }}</p>
+    <p>Engagement Rate: {{ performance_stats['Engagement Rate'] }}%</p>
+
+    <h2>Recommendations:</h2>
+    <ul>
+        {% for recommendation in recommendations %}
+            <li>{{ recommendation }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Posting Rate and Interaction Rate Over Time</h2>
+    <div>
+        <!-- Interactive Plotly graph container -->
+        <div id="graph-container"></div>
+    </div>
+
+    <h2>Download PDF Report</h2>
+    <a href="{{ pdf_file }}" download="{{ pdf_filename }}">Download PDF</a>
+
+    <!-- Load Plotly and create the interactive graph -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        // Load the graph JSON data from Flask
+        var graphData = {{ graph_json|safe }};
+
+        // Create the Plotly graph
+        Plotly.newPlot('graph-container', graphData.data, graphData.layout);  // Use data and layout separately
+    </script>
+</body>
+</html>
